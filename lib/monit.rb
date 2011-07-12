@@ -36,13 +36,17 @@ module Monit
     # get all files in config/monit that match the current host name
     # drop them in /etc/monit/conf.d/ which is included by /etc/monit/monitrc
     filenames = []
-    Dir.entries(File.join(rails_root, 'config', 'monit')).map{|f| f.gsub('.erb', '')}.reject{|f| ['.', '..'].include?(f)}.select{|f| Facter.hostname.match(f)}.each do |filename|
-      filenames << "#{filename}.conf"
-      file "/etc/monit/conf.d/#{filename}.conf",
-        :mode => '700',
-        :require => file('/etc/monit/conf.d'),
-        :backup => false,
-        :content => template(File.join(rails_root, 'config', 'monit', "#{filename}.erb"), binding)
+
+    monit_config_dir = rails_root.join('config', 'monit')
+    if monit_config_dir.exist?
+      Dir.entries(monit_config_dir).map{|f| f.gsub('.erb', '')}.reject{|f| ['.', '..'].include?(f)}.select{|f| Facter.hostname.match(f)}.each do |filename|
+        filenames << "#{filename}.conf"
+        file "/etc/monit/conf.d/#{filename}.conf",
+          :mode => '700',
+          :require => file('/etc/monit/conf.d'),
+          :backup => false,
+          :content => template(File.join(rails_root, 'config', 'monit', "#{filename}.erb"), binding)
+      end
     end
 
     if File.exists?('/etc/monit/conf.d')
