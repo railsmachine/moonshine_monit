@@ -12,4 +12,7 @@ set alert <%= email %>
 <% end %>
 <% end %>
 
+set httpd port 2812
+  allow localhost
+
 include /etc/monit/conf.d/*
