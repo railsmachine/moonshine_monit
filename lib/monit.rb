@@ -10,21 +10,23 @@ module Monit
       :mode => '700',
       :require => file('/etc/monit'),
       :backup => false,
-      :content => template("#{File.dirname(__FILE__)}/../templates/monitrc.erb", binding)
+      :content => template("#{File.dirname(__FILE__)}/../templates/monitrc.erb", binding),
+      :notify => service('monit')
 
     file '/etc/init/monit.conf',
       :require => file('/etc/monit'),
       :backup => false,
-      :content => template("#{File.dirname(__FILE__)}/../templates/monit.conf.erb", binding)
+      :content => template("#{File.dirname(__FILE__)}/../templates/monit.conf.erb", binding),
+      :notify => service('monit')
 
     file '/etc/default/monit',
           :content => template(File.join(File.dirname(__FILE__), '..', 'templates', 'startup')),
           :mode => '644',
-          :before => service("monit")
+          :notify => service("monit")
 
     file '/etc/init.d/monit',
       :mode => '755',
-      :before => service("monit")
+      :notify => service("monit")
 
     exec 'restart_monit',
       :command => 'monit reload',
