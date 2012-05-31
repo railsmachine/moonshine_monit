@@ -20,11 +20,13 @@ module Monit
       :notify => service('monit')
 
     file '/etc/default/monit',
-          :content => template(File.join(File.dirname(__FILE__), '..', 'templates', 'startup')),
+          :content => template(File.join(File.dirname(__FILE__), '..', 'templates', 'monit.default.erb')),
           :mode => '644',
           :notify => service("monit")
 
     file '/etc/init.d/monit',
+      :ensure => :link,
+      :target => '/lib/init/upstart-job',
       :mode => '755',
       :notify => service("monit")
 

@@ -7,4 +7,4 @@ expect daemon
 
 respawn
 
-exec /usr/sbin/monit
+exec /usr/sbin/monit -c /etc/monit/monitrc -s /var/lib/monit/monit.state
