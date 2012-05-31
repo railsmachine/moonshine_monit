@@ -20,5 +20,3 @@ namespace :monit do
     sudo 'monit reload'
   end
 end
-
-after 'deploy', 'monit:reload'

@@ -66,3 +66,9 @@ Check out their documentation here: [Monit](http://mmonit.com/monit/documentatio
     check host stg-app1 with address 192.168.1.191
       if failed port 80 with timeout 15 seconds then <%= prowl("http down on stg-app1") %>
       if failed port 443 with timeout 15 seconds then <%= prowl("https down on stg-app1") %>
+
+
+TODO
+----------
+document monit role
+document adding `after 'deploy', 'monit:reload'  ` to deploy.rb
