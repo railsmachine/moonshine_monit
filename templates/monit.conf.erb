@@ -7,4 +7,4 @@ expect daemon
 
 respawn
 
-exec /usr/#{"s" unless ubuntu_trusty?}bin/monit -c /etc/monit/monitrc -s /var/lib/monit/monit.state
+exec /usr/<%= "s" unless ubuntu_trusty? %>bin/monit -c /etc/monit/monitrc -s /var/lib/monit/monit.state
